@@ -1,7 +1,6 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect } from 'react'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
-import { Preloader } from './components/Preloader'
 import { HeroSection } from './screens/HomePage/sections/HeroSection'
 import { FeaturesSection } from './screens/HomePage/sections/FeaturesSection'
 import { ProjectAndInquirySection } from './screens/HomePage/sections/ProjectAndInquirySection'
@@ -11,15 +10,7 @@ import { SiteReviewSection } from './screens/HomePage/sections/SiteReviewSection
 import { FooterSection } from './screens/HomePage/sections/FooterSection'
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true)
-
-  const handlePreloaderComplete = useCallback(() => {
-    setIsLoading(false)
-  }, [])
-
   useEffect(() => {
-    if (isLoading) return
-
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -33,11 +24,10 @@ function App() {
     requestAnimationFrame(raf)
 
     return () => lenis.destroy()
-  }, [isLoading])
+  }, [])
 
   return (
     <>
-      {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
       <div className="main-content flex flex-col w-full">
         <HeroSection />
         <FeaturesSection />

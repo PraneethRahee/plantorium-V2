@@ -44,63 +44,66 @@ const socialLinks = [
 
 export const FooterSection = () => {
   return (
-    <footer className="relative w-full bg-[#f6fde5] overflow-hidden">
-      <div className="px-6 md:px-[150px] pt-[80px] pb-[20px]">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-12">
-          <div className="flex flex-col gap-6 max-w-[500px]">
-            <div className="flex items-center gap-3">
-              <div className="relative w-14 h-14 shrink-0">
-                <div className="w-14 h-14 rounded-full bg-[url(https://c.animaapp.com/mm91avyrvgFAYy/img/image-1.png)] bg-[100%_100%]">
-                  <img
-                    className="w-14 h-14 rounded-full"
-                    alt="Plantorium logo"
-                    src="https://c.animaapp.com/mm91avyrvgFAYy/img/image-2-1.png"
-                  />
+    <footer className="relative w-full h-screen bg-[#f6fde5] overflow-hidden flex flex-col">
+      <div className="px-6 md:px-[150px] pt-[60px] pb-[20px] flex-1 flex">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-6">
+
+          <div className="flex flex-col border border-[#DCDFE4] px-6 py-8 justify-between">
+            <div className="flex flex-col gap-6 max-w-[520px]">
+              <div className="flex items-center gap-3">
+                <div className="relative w-14 h-14 shrink-0">
+                  <div className="w-14 h-14 rounded-full ">
+                    <img
+                      className="w-14 h-14 rounded-full"
+                      alt="Plantorium logo"
+                      src="https://c.animaapp.com/mm91avyrvgFAYy/img/image-2-1.png"
+                    />
+                  </div>
                 </div>
+                <span className="[font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#2d3b18] text-3xl leading-tight">
+                  Plantorium
+                </span>
               </div>
-              <span className="[font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#2d3b18] text-3xl leading-tight">
-                Plantorium
-              </span>
+
+              <p className="[font-family:'Funnel_Sans',Helvetica] font-normal text-[16px] leading-[120%] tracking-[0] text-[#758195] align-middle md:[font-family:'Bricolage_Grotesque',Helvetica] md:text-[18px] md:text-[#2C3E5D]">
+                Working together to protect our planet and build a sustainable future.
+              </p>
             </div>
 
-            <p className="[font-family:'Funnel_Sans',Helvetica] text-[#2d3b18]/60 text-lg leading-relaxed">
-              Working together to protect our planet and build a sustainable future.
-            </p>
+            <div className="flex flex-col gap-6">
+              <Button className="group w-fit inline-flex items-center gap-4 px-8 py-4 h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 border border-[#b5d96a]">
+                <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#2d3b18] text-lg tracking-[0] leading-[1.2]">
+                  <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
+                    Contact Us
+                  </div>
+                  <div className="absolute translate-y-[164%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
+                    Contact Us
+                  </div>
+                </span>
+                <ArrowUpRightIcon className="w-4 h-4 text-[#2d3b18] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 border-t border-l border-[#c5d0ab]">
-            {socialLinks.map((social) => (
-              <a
-                key={social.name}
-                href="#"
-                aria-label={social.name}
-                className={`flex items-center justify-center w-[260px] h-[140px] border-b border-r border-[#c5d0ab] text-[#2d3b18] hover:bg-[#e8f0cc] transition-all duration-300 ${social.hoverClass} [&>svg]:transition-transform [&>svg]:duration-300 [&>svg]:hover:scale-150`}
-              >
-                {social.icon}
-              </a>
-            ))}
+          <div className="flex items-stretch">
+            <div className="grid grid-cols-2 w-full gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href="#"
+                  aria-label={social.name}
+                  className={`flex items-center justify-center border border-[#DCDFE4] text-[#2d3b18] hover:bg-[#e8f0cc] transition-all duration-300 ${social.hoverClass} [&>svg]:transition-transform [&>svg]:duration-300 [&>svg]:hover:scale-150`}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
-
-        <div className="mt-10">
-          <Button className="group w-fit inline-flex items-center gap-4 px-8 py-4 h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 border border-[#b5d96a]">
-            <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#2d3b18] text-lg tracking-[0] leading-[1.2]">
-              <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
-                Contact Us
-              </div>
-              <div className="absolute translate-y-[164%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
-                Contact Us
-              </div>
-            </span>
-            <ArrowUpRightIcon className="w-4 h-4 text-[#2d3b18] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Button>
         </div>
       </div>
-
-      <div className="relative h-[200px] md:h-[320px] overflow-hidden pointer-events-none select-none">
+      <div className="mt-10 overflow-hidden pointer-events-none select-none flex items-center justify-center">
         <p
-          className="[font-family:'Bricolage_Grotesque',Helvetica] font-bold text-[#3d4f1f] leading-[100%] whitespace-nowrap text-[160px] md:text-[240px] text-center capitalize"
-          style={{ letterSpacing: "12px" }}
+          className="[font-family:'Bricolage_Grotesque',Helvetica] font-bold text-[#546232] leading-[100%] whitespace-nowrap text-[68px] tracking-[2.55px] text-left align-middle md:text-[220px] md:text-[#3d4f1f] md:tracking-[12px]"
         >
           Plant
           <span
