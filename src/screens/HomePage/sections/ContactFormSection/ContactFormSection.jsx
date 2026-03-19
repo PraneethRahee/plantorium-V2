@@ -56,7 +56,10 @@ export const ContactFormSection = () => {
   };
 
   return (
-    <section className="w-full h-screen flex items-stretch px-6 md:px-[150px] bg-white">
+    <section
+      id="contact"
+      className="w-full min-h-screen flex items-stretch px-6 md:px-[150px] py-10 md:py-[80px] bg-white"
+    >
       <div className="w-full flex items-center translate-y-[-0.5rem] animate-fade-in opacity-0 [--animation-delay:800ms]">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-[60px] items-start lg:items-center w-full">
           <div className="order-2 lg:order-1 flex flex-col gap-8">

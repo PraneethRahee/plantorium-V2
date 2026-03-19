@@ -13,13 +13,16 @@ const partnerLogos = [
 
 export const FeaturesSection = () => {
   return (
-    <section className="flex w-full items-start justify-center h-[100dvh] md:h-auto pt-16 pb-8 md:py-[60px] bg-[#f6fde5] overflow-hidden">
+    <section
+      id="about"
+      className="flex w-full items-start justify-center h-[100dvh] md:h-auto pt-16 pb-8 md:py-[60px] bg-[#f6fde5] overflow-hidden"
+    >
       <div className="flex flex-col flex-1 max-w-xs md:max-w-none mx-auto items-center gap-6 md:gap-10 px-4 md:px-[150px] animate-fade-in opacity-0 [--animation-delay:200ms]">
         <Badge
           variant="outline"
           className="inline-flex items-center justify-center gap-2 px-4 py-1.5 md:py-3 rounded-[999px] border-[#172b4d] bg-transparent hover:bg-transparent"
         >
-          <span className="[font-family:'Funnel_Sans',Helvetica] font-semibold text-sm md:text-[16px] leading-[120%] tracking-[0] text-[#172b4d] align-middle">
+          <span className="[font-family:'Funnel_Sans',Helvetica] font-semibold text-[16px] leading-[120%] tracking-[0] text-[#172b4d] align-middle">
             Trusted Partners
           </span>
         </Badge>

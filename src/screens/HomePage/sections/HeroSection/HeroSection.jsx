@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import gsap from "gsap";
+import { Menu, X } from "lucide-react";
 import { Button } from "../../../../components/ui/button"; 
 import { Card, CardContent } from "../../../../components/ui/card";
 import { Separator } from "../../../../components/ui/separator";
@@ -37,6 +39,67 @@ export const HeroSection = () => {
   const slidesRef = useRef([]);
   const currentSlideIndex = useRef(0);
   const isAnimating = useRef(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const hamburgerButtonRef = useRef(null);
+  const firstMenuItemRef = useRef(null);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavClick = (label) => {
+    const targetId =
+      label === "Home" ? "home" : label === "About Us" ? "about" : "projects";
+
+    // Close first so the UI doesn't stay open while scrolling.
+    setIsMenuOpen(false);
+
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setIsMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+
+    const t = window.setTimeout(() => {
+      firstMenuItemRef.current?.focus?.();
+    }, 0);
+
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (isMenuOpen) return;
+    hamburgerButtonRef.current?.focus?.();
+  }, [isMenuOpen]);
+
+  // Handle scroll target passed from other pages (e.g., /contactus)
+  useEffect(() => {
+    const scrollTo = location.state?.scrollTo;
+    if (!scrollTo) return;
+
+    const timeout = window.setTimeout(() => {
+      const el = document.getElementById(scrollTo);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 0);
+
+    return () => window.clearTimeout(timeout);
+  }, [location.state]);
 
   useEffect(() => {
     const slides = slidesRef.current.filter(Boolean);
@@ -153,7 +216,7 @@ export const HeroSection = () => {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.3)_40%,rgba(0,0,0,0.2)_100%)]" />
       <div className="relative z-10 flex flex-col h-full">
         <nav className="w-full px-3 sm:px-4 lg:px-[150px] pt-3 sm:pt-4 lg:pt-6 shrink-0 animate-fade-in opacity-0">
-          <div className="flex items-center justify-between px-3 sm:px-4 lg:px-5 py-2 sm:py-3 lg:py-3 bg-white rounded-[999px] border border-solid border-[#a7c463]">
+            <div className="flex items-center justify-between px-3 sm:px-4 lg:px-5 py-2 sm:py-3 lg:py-3 bg-white rounded-[300px] border border-solid border-[#a7c463]">
             <div className="inline-flex items-center gap-2.5 sm:gap-3">
               <div className="relative w-10 h-10 sm:w-11 sm:h-11 lg:w-14 lg:h-14 bg-[100%_100%]">
                 <img
@@ -176,6 +239,7 @@ export const HeroSection = () => {
                   <button
                     key={index}
                     className="flex items-center justify-center px-2 [font-family:'Bricolage_Grotesque',Helvetica] font-normal text-[18px] leading-[120%] tracking-[0] text-[#172b4d] text-center align-middle transition-all duration-300 hover:text-[#6b8f3c] hover:tracking-[0.08em]"
+                    onClick={() => handleNavClick(item.label)}
                   >
                     <span className="relative inline-block after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-[2px] after:bg-[#6b8f3c] after:origin-center after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">
                       {item.label}
@@ -184,7 +248,12 @@ export const HeroSection = () => {
                 ))}
               </nav>
 
-              <Button className="group inline-flex items-center gap-[16px] px-[22px] py-[15px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300">
+              <Button
+                className="group inline-flex items-center gap-[16px] px-[22px] py-[15px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300"
+                onClick={() => {
+                  navigate("/contactus");
+                }}
+              >
                 <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-base lg:text-lg tracking-[0] leading-[1.3] text-black">
                   <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
                     Contact Us
@@ -201,16 +270,92 @@ export const HeroSection = () => {
               </Button>
             </div>
 
-            <button className="flex lg:hidden items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#a7c463] bg-[#f6fde5]">
+            <button
+              ref={hamburgerButtonRef}
+              type="button"
+              aria-label="Open navigation"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
+              onClick={() => setIsMenuOpen((v) => !v)}
+              className="flex lg:hidden items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#a7c463] bg-[#f6fde5]"
+            >
               <span className="sr-only">Open navigation</span>
-              <div className="flex flex-col gap-1">
-                <span className="h-0.5 w-4 bg-[#172b4d] rounded-full" />
-                <span className="h-0.5 w-4 bg-[#172b4d] rounded-full" />
-                <span className="h-0.5 w-4 bg-[#172b4d] rounded-full" />
-              </div>
+              <Menu className="w-5 h-5 text-[#546232]" aria-hidden="true" />
             </button>
           </div>
         </nav>
+
+        {isMenuOpen && (
+          <div
+            className="fixed inset-0 z-[80] bg-black/85 backdrop-blur-sm transition-opacity duration-200"
+            onClick={() => setIsMenuOpen(false)}
+          />
+        )}
+        <aside
+          id="mobile-navigation"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
+          className={`fixed top-0 right-0 z-[90] h-[100dvh] w-[min(380px,90vw)] bg-[#f6fde5] border-l-2 border-solid border-[#a7c463] shadow-2xl transform transition-transform duration-300 ease-out ${
+            isMenuOpen ? "translate-x-0 pointer-events-auto" : "translate-x-full pointer-events-none"
+          }`}
+        >
+          <div className="flex items-center justify-between px-4 py-4 border-b border-[#a7c463]/50">
+            <div className="inline-flex items-center gap-2">
+              <div className="relative w-8 h-8 bg-[#f6fde5] rounded-full border border-[#a7c463] flex items-center justify-center">
+                <span className="sr-only">Menu</span>
+                <Menu className="w-5 h-5 text-[#546232]" aria-hidden="true" />
+              </div>
+              <span className="[font-family:'Bricolage_Grotesque',Helvetica] font-medium text-[#172b4d]">
+                Menu
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen(false)}
+              className="flex items-center justify-center w-9 h-9 rounded-full border border-[#a7c463] bg-[#f6fde5] hover:bg-[#eaf6d3] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8f3c]/50"
+              aria-label="Close navigation"
+            >
+              <X className="w-5 h-5 text-[#172b4d]" aria-hidden="true" />
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-4 py-5">
+            <div className="flex flex-col gap-3">
+              {navigationItems.map((item, index) => (
+                <button
+                  key={index}
+                  ref={index === 0 ? firstMenuItemRef : null}
+                  type="button"
+                  onClick={() => handleNavClick(item.label)}
+                  className="w-full text-left px-5 py-4 rounded-[16px] border border-[#a7c463] bg-[#f6fde5] hover:border-[#6b8f3c] hover:bg-white transition-colors [font-family:'Bricolage_Grotesque',Helvetica] font-normal text-[18px] leading-[120%] tracking-[0] text-[#172b4d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8f3c]/50"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-6">
+              <Button
+                className="w-full justify-center inline-flex items-center gap-[16px] px-[22px] py-[15px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  navigate("/contactus");
+                }}
+              >
+                <span className="relative inline-flex overflow-hidden [font-family:'Funnel_Sans',Helvetica] font-medium text-[20  px] leading-[120%] tracking-[0px] text-[#172b4d] align-middle">
+                  Contact Us
+                </span>
+                <img
+                  className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
+                  alt="Icon"
+                  src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
+                />
+              </Button>
+            </div>
+          </div>
+        </aside>
 
         <div className="relative flex flex-col flex-1 justify-end lg:justify-start px-4 pb-8 pt-4 sm:px-6 md:px-8 md:pb-12 lg:px-[150px] lg:pt-8 lg:pb-6">
           <div className="inline-flex flex-col items-start gap-4 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
@@ -219,8 +364,13 @@ export const HeroSection = () => {
               Execution
             </h1>
 
-            <Button className="group w-full md:w-auto justify-center inline-flex items-center gap-2 md:gap-[18px] px-8 md:px-[25px] py-4 md:py-[19px] h-auto bg-[#d1f57c] rounded-full hover:bg-[#c5e970] transition-all duration-300 mb-6 md:mb-8">
-              <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-black text-base sm:text-lg tracking-[0] leading-[21.6px]">
+            <Button
+              className="group w-full md:w-auto justify-center inline-flex items-center gap-2 md:gap-[18px] px-8 md:px-[25px] py-4 md:py-[19px] h-auto bg-[#d1f57c] rounded-full hover:bg-[#c5e970] transition-all duration-300 mb-6 md:mb-8"
+              onClick={() => {
+                navigate("/contactus");
+              }}
+            >
+              <span className="relative inline-flex overflow-hidden [font-family:'Funnel_Sans',Helvetica] font-medium text-[16px] leading-[120%] tracking-[0px] text-[#172b4d] align-middle">
                 <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
                   Contact Us
                 </div>
@@ -287,10 +437,13 @@ export const HeroSection = () => {
             </div>
           </Card>
 
-          <div className="lg:hidden grid grid-cols-2 gap-4 w-full translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:600ms]">
+          <div className="lg:hidden grid grid-cols-2 gap-4 w-full translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:600ms] justify-items-center text-center">
             {statsData.map((stat, index) => (
-              <div key={index} className="space-y-1 px-3 py-2">
-                <div className="font-medium text-2xl sm:text-3xl text-white">
+              <div
+                key={index}
+                className="flex flex-col items-center space-y-1 px-3 py-2"
+              >
+                <div className="[font-family:'Bricolage_Grotesque',Helvetica] font-normal text-[18px] leading-[120%] tracking-[0px] text-white align-middle">
                   {stat.value}
                 </div>
                 <div className="font-medium text-xs sm:text-sm text-white/70">

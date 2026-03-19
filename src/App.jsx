@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
 import { HeroSection } from './screens/HomePage/sections/HeroSection'
@@ -8,6 +9,32 @@ import { LatestProjectSnapshotSection } from './screens/HomePage/sections/Latest
 import { ContactFormSection } from './screens/HomePage/sections/ContactFormSection'
 import { SiteReviewSection } from './screens/HomePage/sections/SiteReviewSection'
 import { FooterSection } from './screens/HomePage/sections/FooterSection'
+import { ContactHeroSection } from './screens/ContactUs/ContactHeroSection'
+
+function HomePage() {
+  return (
+    <div className="main-content flex flex-col w-full">
+      <HeroSection />
+      <FeaturesSection />
+      <ProjectAndInquirySection />
+      <LatestProjectSnapshotSection />
+      <ContactFormSection />
+      <SiteReviewSection />
+      <FooterSection />
+    </div>
+  )
+}
+
+function ContactUsPage() {
+  return (
+    <div className="main-content flex flex-col w-full">
+      <ContactHeroSection />
+      <ContactFormSection />
+      <SiteReviewSection />
+      <FooterSection />
+    </div>
+  )
+}
 
 function App() {
   useEffect(() => {
@@ -27,17 +54,10 @@ function App() {
   }, [])
 
   return (
-    <>
-      <div className="main-content flex flex-col w-full">
-        <HeroSection />
-        <FeaturesSection />
-        <ProjectAndInquirySection />
-        <LatestProjectSnapshotSection />
-        <ContactFormSection />
-        <SiteReviewSection />
-        <FooterSection />
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/contactus" element={<ContactUsPage />} />
+    </Routes>
   )
 }
 

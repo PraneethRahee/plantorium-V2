@@ -107,7 +107,10 @@ export const ProjectAndInquirySection = () => {
   }, [activeIndex]);
 
   return (
-    <section className="flex flex-col w-full items-center justify-center px-6 md:px-[150px] pt-12 md:pt-[120px] pb-16 md:pb-[120px] bg-white overflow-x-clip">
+    <section
+      id="projects"
+      className="flex flex-col w-full items-center justify-center px-6 md:px-[150px] pt-12 md:pt-[120px] pb-16 md:pb-[120px] bg-white overflow-x-clip"
+    >
       <header className="flex flex-col items-center gap-6 mb-[120px] translate-y-[-1rem] animate-fade-in opacity-0">
         <Badge
           variant="outline"
@@ -169,6 +172,13 @@ export const ProjectAndInquirySection = () => {
               >
                 <div className="flex flex-col gap-[54px] justify-end h-full">
                   <div className="flex flex-col gap-3">
+                    <div className="inline-flex items-center justify-center w-[48px] h-[48px] rounded-md overflow-hidden lg:w-[72px] lg:h-[72px] lg:rounded-[6px]">
+                      <img
+                        src={BackgroundIcon}
+                        alt={`${feature.title} icon`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                     <h3 className="[font-family:'Bricolage_Grotesque',Helvetica] font-medium text-[24px] md:text-[28px] lg:text-[54px] leading-[120%] tracking-[0] text-[#172b4d] align-middle">
                       {feature.title}
                     </h3>

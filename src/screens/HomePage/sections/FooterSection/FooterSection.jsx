@@ -50,7 +50,7 @@ export const FooterSection = () => {
 
           <div className="flex flex-col border border-[#DCDFE4] px-6 py-8 justify-between">
             <div className="flex flex-col gap-6 max-w-[520px]">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-wrap lg:flex-nowrap min-w-0">
                 <div className="relative w-14 h-14 shrink-0">
                   <div className="w-14 h-14 rounded-full ">
                     <img
@@ -60,7 +60,7 @@ export const FooterSection = () => {
                     />
                   </div>
                 </div>
-                <span className="[font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#2d3b18] text-3xl leading-tight">
+                <span className="[font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#2d3b18] text-[28px] md:text-[30px] lg:text-3xl leading-tight whitespace-normal break-words">
                   Plantorium
                 </span>
               </div>
@@ -101,9 +101,9 @@ export const FooterSection = () => {
           </div>
         </div>
       </div>
-      <div className="mt-10 overflow-hidden pointer-events-none select-none flex items-center justify-center">
+      <div className="mt-6 md:mt-10 overflow-hidden pointer-events-none select-none flex items-center justify-center md:justify-center w-full px-6 md:px-[150px]">
         <p
-          className="[font-family:'Bricolage_Grotesque',Helvetica] font-bold text-[#546232] leading-[100%] whitespace-nowrap text-[68px] tracking-[2.55px] text-left align-middle md:text-[220px] md:text-[#3d4f1f] md:tracking-[12px]"
+          className="[font-family:'Bricolage_Grotesque',Helvetica] font-bold text-[#546232] leading-[100%] whitespace-nowrap text-[11vw] sm:text-[9vw] tracking-[0px] text-center md:text-center align-middle md:text-[180px] md:text-[#3d4f1f] md:tracking-[10px] md:leading-[100%]"
         >
           Plant
           <span

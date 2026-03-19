@@ -56,7 +56,7 @@ export const LatestProjectSnapshotSection = () => {
       `}</style>
 
       {/* Mobile & Tablet layout */}
-      <div className="w-full h-screen bg-[#546232] px-6 py-8 md:px-10 md:py-10 lg:hidden">
+      <div className="w-full min-h-screen bg-[#546232] px-6 py-8 md:px-10 md:py-10 lg:hidden">
         <div className="flex flex-col h-full gap-6">
           <div className="flex flex-col gap-3">
             <h2 className="[font-family:'Bricolage_Grotesque',Helvetica] font-medium text-[28px] leading-[120%] tracking-[0] text-white align-middle">
