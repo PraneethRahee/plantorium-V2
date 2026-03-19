@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 import { PlayIcon, PauseIcon, CheckCircleIcon, AlertCircleIcon, LoaderIcon } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import { Input } from "../../../../components/ui/input";
 import { Textarea } from "../../../../components/ui/textarea";
+import { SECTION_X_PADDING } from "../../../../constants/layoutSpacing";
 
 const EMAILJS_SERVICE_ID = "service_qsz2plw";
 const EMAILJS_TEMPLATE_ID = "template_1b7nthe";
@@ -40,6 +40,7 @@ export const ContactFormSection = () => {
     setSendStatus("sending");
 
     try {
+      const { default: emailjs } = await import("@emailjs/browser");
       await emailjs.sendForm(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
@@ -58,7 +59,7 @@ export const ContactFormSection = () => {
   return (
     <section
       id="contact"
-      className="w-full min-h-screen flex items-stretch px-6 md:px-[150px] py-10 md:py-[80px] bg-white"
+      className={`w-full min-h-screen flex items-stretch ${SECTION_X_PADDING} py-10 md:py-[80px] bg-white`}
     >
       <div className="w-full flex items-center translate-y-[-0.5rem] animate-fade-in opacity-0 [--animation-delay:800ms]">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-[60px] items-start lg:items-center w-full">

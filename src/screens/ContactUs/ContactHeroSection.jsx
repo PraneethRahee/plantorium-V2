@@ -80,6 +80,9 @@ export const ContactHeroSection = () => {
           src={CONTACT_HERO_IMAGE}
           alt="Contact background"
           className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.5)_40%,rgba(0,0,0,0.6)_100%)]" />
 
@@ -92,6 +95,8 @@ export const ContactHeroSection = () => {
                 className="absolute top-1/2 -translate-y-1/2 left-0 w-10 h-10 sm:w-11 sm:h-11 lg:w-14 lg:h-14"
                 alt="Logo"
                 src="https://c.animaapp.com/mm91avyrvgFAYy/img/image-2-1.png"
+                loading="eager"
+                decoding="async"
               />
             </div>
 
@@ -99,6 +104,8 @@ export const ContactHeroSection = () => {
               className="w-[100px] h-5 sm:w-[120px] sm:h-6 lg:w-[148px] lg:h-6"
               alt="Brand name"
               src="https://c.animaapp.com/mm91avyrvgFAYy/img/image-2.png"
+              loading="eager"
+              decoding="async"
             />
           </div>
 

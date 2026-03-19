@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Badge } from "../../../../components/ui/badge";
 import BackgroundIcon from "../../../../assets/Background.svg";
+import { SECTION_X_PADDING } from "../../../../constants/layoutSpacing";
 
 const features = [
   {
@@ -109,7 +110,7 @@ export const ProjectAndInquirySection = () => {
   return (
     <section
       id="projects"
-      className="flex flex-col w-full items-center justify-center px-6 md:px-[150px] pt-12 md:pt-[120px] pb-16 md:pb-[120px] bg-white overflow-x-clip"
+      className={`flex flex-col w-full items-center justify-center ${SECTION_X_PADDING} pt-12 md:pt-[120px] pb-16 md:pb-[120px] bg-white overflow-x-clip`}
     >
       <header className="flex flex-col items-center gap-6 mb-[120px] translate-y-[-1rem] animate-fade-in opacity-0">
         <Badge
@@ -139,6 +140,8 @@ export const ProjectAndInquirySection = () => {
                 src={feature.image}
                 alt={feature.title}
                 className="w-full h-[220px] sm:h-[260px] object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -147,6 +150,8 @@ export const ProjectAndInquirySection = () => {
                   src={BackgroundIcon}
                   alt={`${feature.title} icon`}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <h3 className="[font-family:'Bricolage_Grotesque',Helvetica] font-medium text-[24px] leading-[120%] tracking-[0] text-[#172b4d] align-middle">
@@ -177,6 +182,8 @@ export const ProjectAndInquirySection = () => {
                         src={BackgroundIcon}
                         alt={`${feature.title} icon`}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <h3 className="[font-family:'Bricolage_Grotesque',Helvetica] font-medium text-[24px] md:text-[28px] lg:text-[54px] leading-[120%] tracking-[0] text-[#172b4d] align-middle">
@@ -199,6 +206,8 @@ export const ProjectAndInquirySection = () => {
                   src={features[activeIndex].image}
                   alt={features[activeIndex].title}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
               )}
             </div>
