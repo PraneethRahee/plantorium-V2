@@ -1,4 +1,5 @@
 import { Badge } from "../../../../components/ui/badge";
+import { SECTION_X_PADDING } from "../../../../constants/layoutSpacing";
 
 const partnerLogos = [
   { name: "Notion", src: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png" },
@@ -17,7 +18,7 @@ export const FeaturesSection = () => {
       id="about"
       className="flex w-full items-start justify-center h-[100dvh] md:h-auto pt-16 pb-8 md:py-[60px] bg-[#f6fde5] overflow-hidden"
     >
-      <div className="flex flex-col flex-1 max-w-xs md:max-w-none mx-auto items-center gap-6 md:gap-10 px-4 md:px-[150px] animate-fade-in opacity-0 [--animation-delay:200ms]">
+      <div className={`flex flex-col flex-1 max-w-xs md:max-w-none mx-auto items-center gap-6 md:gap-10 ${SECTION_X_PADDING} animate-fade-in opacity-0 [--animation-delay:200ms]`}>
         <Badge
           variant="outline"
           className="inline-flex items-center justify-center gap-2 px-4 py-1.5 md:py-3 rounded-[999px] border-[#172b4d] bg-transparent hover:bg-transparent"
@@ -42,6 +43,8 @@ export const FeaturesSection = () => {
                 src={logo.src}
                 alt={logo.name}
                 className="w-[80px] h-[80px] md:w-[72px] md:h-[72px] lg:w-[54px] lg:h-[54px] object-contain opacity-100 md:opacity-80 grayscale"
+                loading="lazy"
+                decoding="async"
               />
               {/* <span className="text-[13px] font-bold tracking-wide uppercase whitespace-nowrap text-[#4a7c10] opacity-60">
                 {logo.name}

@@ -1,4 +1,5 @@
-import { Button } from "../../../../components/ui/button";
+import { ContactUsCTA } from "../../../../components/ContactUsCTA/ContactUsCTA";
+import { SECTION_X_PADDING } from "../../../../constants/layoutSpacing";
 
 const projectImages = [
   {
@@ -56,7 +57,7 @@ export const LatestProjectSnapshotSection = () => {
       `}</style>
 
       {/* Mobile & Tablet layout */}
-      <div className="w-full min-h-screen bg-[#546232] px-6 py-8 md:px-10 md:py-10 lg:hidden">
+      <div className={`w-full min-h-screen bg-[#546232] ${SECTION_X_PADDING} py-8 md:py-10 lg:hidden`}>
         <div className="flex flex-col h-full gap-6">
           <div className="flex flex-col gap-3">
             <h2 className="[font-family:'Bricolage_Grotesque',Helvetica] font-medium text-[28px] leading-[120%] tracking-[0] text-white align-middle">
@@ -68,21 +69,17 @@ export const LatestProjectSnapshotSection = () => {
           </div>
 
           <div className="flex justify-center">
-            <Button className="group inline-flex items-center justify-center gap-[12px] px-6 py-[14px] h-auto bg-[#d1f57c] rounded-[999px] hover:bg-[#c5e970] transition-all duration-300 w-full">
-              <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#172b4d] text-base md:text-lg leading-[1.2]">
-                <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
-                  Contact Us
-                </div>
-                <div className="absolute translate-y-[164%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
-                  Contact Us
-                </div>
-              </span>
-              <img
-                className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
-                alt="Icon"
-                src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
-              />
-            </Button>
+            <ContactUsCTA
+              buttonClassName="group inline-flex items-center justify-center gap-[12px] px-6 py-[14px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 w-full"
+              spanClassName="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#172b4d] text-base md:text-lg leading-[1.2]"
+              icon={
+                <img
+                  className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
+                  alt="Icon"
+                  src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
+                />
+              }
+            />
           </div>
 
           <div className="mt-4 flex-1 min-h-0">
@@ -93,6 +90,8 @@ export const LatestProjectSnapshotSection = () => {
                     src={img.src}
                     alt={img.alt}
                     className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
               ))}
@@ -102,7 +101,7 @@ export const LatestProjectSnapshotSection = () => {
       </div>
 
       {/* Desktop layout (unchanged) */}
-      <div className="hidden lg:flex w-full h-screen bg-[#546232] px-6 md:px-[150px] items-center">
+      <div className={`hidden lg:flex w-full h-screen bg-[#546232] ${SECTION_X_PADDING} items-center`}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-[80px] items-center w-full">
           <div className="flex flex-col gap-[54px]">
             <div className="flex flex-col gap-5">
@@ -114,21 +113,17 @@ export const LatestProjectSnapshotSection = () => {
               </p>
             </div>
 
-            <Button className="group inline-flex items-center gap-[18px] px-[25px] py-[19px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 w-fit">
-              <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#172b4d] text-lg tracking-[0] leading-[21.6px]">
-                <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
-                  Contact Us
-                </div>
-                <div className="absolute translate-y-[164%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
-                  Contact Us
-                </div>
-              </span>
-              <img
-                className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
-                alt="Icon"
-                src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
-              />
-            </Button>
+            <ContactUsCTA
+              buttonClassName="group inline-flex items-center gap-[18px] px-[25px] py-[19px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 w-fit"
+              spanClassName="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#172b4d] text-lg tracking-[0] leading-[21.6px]"
+              icon={
+                <img
+                  className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
+                  alt="Icon"
+                  src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
+                />
+              }
+            />
           </div>
 
           <div className="overflow-hidden" style={{ height: containerHeight }}>
@@ -145,6 +140,8 @@ export const LatestProjectSnapshotSection = () => {
                         src={img.src}
                         alt={img.alt}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   ))}
@@ -163,6 +160,8 @@ export const LatestProjectSnapshotSection = () => {
                         src={img.src}
                         alt={img.alt}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   ))}

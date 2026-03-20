@@ -80,6 +80,9 @@ export const ContactHeroSection = () => {
           src={CONTACT_HERO_IMAGE}
           alt="Contact background"
           className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.5)_40%,rgba(0,0,0,0.6)_100%)]" />
 
@@ -92,6 +95,8 @@ export const ContactHeroSection = () => {
                 className="absolute top-1/2 -translate-y-1/2 left-0 w-10 h-10 sm:w-11 sm:h-11 lg:w-14 lg:h-14"
                 alt="Logo"
                 src="https://c.animaapp.com/mm91avyrvgFAYy/img/image-2-1.png"
+                loading="eager"
+                decoding="async"
               />
             </div>
 
@@ -99,6 +104,8 @@ export const ContactHeroSection = () => {
               className="w-[100px] h-5 sm:w-[120px] sm:h-6 lg:w-[148px] lg:h-6"
               alt="Brand name"
               src="https://c.animaapp.com/mm91avyrvgFAYy/img/image-2.png"
+              loading="eager"
+              decoding="async"
             />
           </div>
 
@@ -109,7 +116,7 @@ export const ContactHeroSection = () => {
                   key={item.label}
                   type="button"
                   onClick={() => handleNavClick(item.label)}
-                  className="flex items-center justify-center px-2 [font-family:'Bricolage_Grotesque',Helvetica] font-normal text-[18px] leading-[120%] tracking-[0] text-[#172b4d] text-center align-middle transition-all duration-300 hover:text-[#6b8f3c]"
+                  className="flex items-center justify-center px-2 rounded-[300px] [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[18px] leading-[120%] tracking-[0] text-[#172b4d] text-center align-middle transition-all duration-300 capitalize hover:text-[#6b8f3c]"
                 >
                   <span className="relative inline-block after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-[2px] after:bg-[#6b8f3c] after:origin-center after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">
                     {item.label}
@@ -146,7 +153,7 @@ export const ContactHeroSection = () => {
             aria-expanded={isMenuOpen}
             aria-controls="contact-mobile-navigation"
             onClick={() => setIsMenuOpen((v) => !v)}
-            className="flex lg:hidden items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#a7c463] bg-[#f6fde5]"
+              className="flex lg:hidden items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-[300px] border border-[#a7c463] bg-[#f6fde5]"
           >
             <span className="sr-only">Open navigation</span>
             <Menu className="w-5 h-5 text-[#546232]" aria-hidden="true" />
@@ -184,7 +191,7 @@ export const ContactHeroSection = () => {
             <button
               type="button"
               onClick={() => setIsMenuOpen(false)}
-              className="flex items-center justify-center w-9 h-9 rounded-full border border-[#a7c463] bg-[#f6fde5] hover:bg-[#eaf6d3] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8f3c]/50"
+              className="flex items-center justify-center w-9 h-9 rounded-[300px] border border-[#a7c463] bg-[#f6fde5] hover:bg-[#eaf6d3] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8f3c]/50"
               aria-label="Close navigation"
             >
               <X className="w-5 h-5 text-[#172b4d]" aria-hidden="true" />
@@ -199,7 +206,7 @@ export const ContactHeroSection = () => {
                   ref={index === 0 ? firstMenuItemRef : null}
                   type="button"
                   onClick={() => handleNavClick(item.label)}
-                  className="w-full text-left px-5 py-4 rounded-[16px] border border-[#a7c463] bg-[#f6fde5] hover:border-[#6b8f3c] hover:bg-white transition-colors [font-family:'Bricolage_Grotesque',Helvetica] font-normal text-[18px] leading-[120%] tracking-[0] text-[#172b4d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8f3c]/50"
+                  className="w-full text-left px-5 py-4 rounded-[300px] border border-[#a7c463] bg-[#f6fde5] hover:border-[#6b8f3c] hover:bg-white transition-colors [font-family:'Funnel_Sans',Helvetica] font-medium text-[16px] leading-[120%] tracking-[0px] text-[#172b4d] capitalize align-middle focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8f3c]/50"
                 >
                   {item.label}
                 </button>
@@ -215,7 +222,7 @@ export const ContactHeroSection = () => {
                   handleContactCta();
                 }}
               >
-                <span className="relative inline-flex overflow-hidden [font-family:'Funnel_Sans',Helvetica] font-medium text-[20px] leading-[120%] tracking-[0px] text-[#172b4d] align-middle">
+                <span className="relative inline-flex overflow-hidden !capitalize align-middle text-[#172b4d] tracking-[0px] leading-[120%] text-[16px] font-medium ![font-family:'Funnel_Sans',Helvetica]">
                   Contact Us
                 </span>
                 <img

@@ -128,7 +128,7 @@ export const SiteReviewSection = () => {
 
           <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
             <Button className="group inline-flex justify-center items-center gap-[12px] md:gap-[18px] px-[18px] py-[14px] md:px-[25px] md:py-[19px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 w-full md:w-auto">
-              <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#172b4d] text-sm md:text-lg tracking-[0] leading-[120%]">
+              <span className="relative inline-flex overflow-hidden !capitalize align-middle text-[#172b4d] tracking-[0px] leading-[120%] text-[16px] font-medium ![font-family:'Funnel_Sans',Helvetica] lg:![font-family:'Bricolage_Grotesque',Helvetica] lg:font-semibold lg:text-[18px]">
                 <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
                   Schedule Discussion
                 </div>
@@ -143,7 +143,7 @@ export const SiteReviewSection = () => {
               variant="outline"
               className="group/outline inline-flex justify-center items-center gap-[12px] md:gap-[18px] px-[18px] py-[14px] md:px-[25px] md:py-[19px] h-auto bg-transparent border border-white/40 rounded-[300px] hover:bg-white/10 transition-all duration-300 w-full md:w-auto"
             >
-              <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-white text-sm md:text-lg tracking-[0] leading-[120%]">
+              <span className="relative inline-flex overflow-hidden !capitalize align-middle text-[#172b4d] tracking-[0px] leading-[120%] text-[16px] font-medium ![font-family:'Funnel_Sans',Helvetica] lg:![font-family:'Bricolage_Grotesque',Helvetica] lg:font-semibold lg:text-[18px]">
                 <div className="translate-y-0 skew-y-0 transition duration-500 group-hover/outline:translate-y-[-160%] group-hover/outline:skew-y-12">
                   Request Call Back
                 </div>

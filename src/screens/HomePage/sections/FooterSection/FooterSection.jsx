@@ -1,5 +1,7 @@
 import { ArrowUpRightIcon } from "lucide-react";
-import { Button } from "../../../../components/ui/button";
+import { ContactUsCTA } from "../../../../components/ContactUsCTA/ContactUsCTA";
+import { FONT_BRICOLAGE_CLASS, TEXT_OLIVE_CLASS } from "../../../../constants/designTokens";
+import { SECTION_X_PADDING } from "../../../../constants/layoutSpacing";
 
 const socialLinks = [
   {
@@ -45,7 +47,7 @@ const socialLinks = [
 export const FooterSection = () => {
   return (
     <footer className="relative w-full h-screen bg-[#f6fde5] overflow-hidden flex flex-col">
-      <div className="px-6 md:px-[150px] pt-[60px] pb-[20px] flex-1 flex">
+      <div className={`${SECTION_X_PADDING} pt-[60px] pb-[20px] flex-1 flex`}>
         <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-6">
 
           <div className="flex flex-col border border-[#DCDFE4] px-6 py-8 justify-between">
@@ -57,10 +59,12 @@ export const FooterSection = () => {
                       className="w-14 h-14 rounded-full"
                       alt="Plantorium logo"
                       src="https://c.animaapp.com/mm91avyrvgFAYy/img/image-2-1.png"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                 </div>
-                <span className="[font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#2d3b18] text-[28px] md:text-[30px] lg:text-3xl leading-tight whitespace-normal break-words">
+                <span className={`${FONT_BRICOLAGE_CLASS} font-semibold text-[#2d3b18] text-[28px] md:text-[30px] lg:text-3xl leading-tight whitespace-normal break-words`}>
                   Plantorium
                 </span>
               </div>
@@ -71,17 +75,13 @@ export const FooterSection = () => {
             </div>
 
             <div className="flex flex-col gap-6">
-              <Button className="group w-fit inline-flex items-center gap-4 px-8 py-4 h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 border border-[#b5d96a]">
-                <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#2d3b18] text-lg tracking-[0] leading-[1.2]">
-                  <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
-                    Contact Us
-                  </div>
-                  <div className="absolute translate-y-[164%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
-                    Contact Us
-                  </div>
-                </span>
-                <ArrowUpRightIcon className="w-4 h-4 text-[#2d3b18] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </Button>
+              <ContactUsCTA
+                buttonClassName="group w-fit inline-flex items-center gap-4 px-8 py-4 h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 border border-[#b5d96a]"
+                spanClassName="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#2d3b18] text-lg tracking-[0] leading-[1.2]"
+                icon={
+                  <ArrowUpRightIcon className="w-4 h-4 text-[#2d3b18] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                }
+              />
             </div>
           </div>
 
@@ -101,9 +101,9 @@ export const FooterSection = () => {
           </div>
         </div>
       </div>
-      <div className="mt-6 md:mt-10 overflow-hidden pointer-events-none select-none flex items-center justify-center md:justify-center w-full px-6 md:px-[150px]">
+      <div className={`mt-6 md:mt-10 overflow-hidden pointer-events-none select-none flex items-center justify-center md:justify-center w-full ${SECTION_X_PADDING}`}>
         <p
-          className="[font-family:'Bricolage_Grotesque',Helvetica] font-bold text-[#546232] leading-[100%] whitespace-nowrap text-[11vw] sm:text-[9vw] tracking-[0px] text-center md:text-center align-middle md:text-[180px] md:text-[#3d4f1f] md:tracking-[10px] md:leading-[100%]"
+          className={`${FONT_BRICOLAGE_CLASS} font-bold ${TEXT_OLIVE_CLASS} leading-[100%] whitespace-nowrap text-[11vw] sm:text-[9vw] tracking-[0px] text-center md:text-center align-middle md:text-[180px] md:text-[#3d4f1f] md:tracking-[10px] md:leading-[100%]`}
         >
           Plant
           <span

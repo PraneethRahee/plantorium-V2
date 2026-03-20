@@ -2,11 +2,20 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { Menu, X } from "lucide-react";
-import { Button } from "../../../../components/ui/button"; 
 import { Card, CardContent } from "../../../../components/ui/card";
-import { Separator } from "../../../../components/ui/separator";
+import { ContactUsCTA } from "../../../../components/ContactUsCTA/ContactUsCTA";
+import {
+  FONT_BRICOLAGE_CLASS,
+  FONT_FUNNEL_CLASS,
+  TEXT_OLIVE_CLASS,
+  TEXT_PRIMARY_CLASS,
+} from "../../../../constants/designTokens";
 
-const navigationItems = [{ label: "Home" }, { label: "About Us" }, { label: "Projects" }];
+const navigationItems = [
+  { label: "Home", targetId: "home" },
+  { label: "About Us", targetId: "about" },
+  { label: "Projects", targetId: "projects" },
+];
 
 const sliderImages = [
   "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&q=80",
@@ -15,6 +24,32 @@ const sliderImages = [
   "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1920&q=80",
   "https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=1920&q=80",
 ];
+
+const responsiveWidths = [640, 960, 1280, 1600, 1920];
+const sliderImageSources = sliderImages.map((rawSrc) => {
+  const srcUrl = new URL(rawSrc);
+  srcUrl.searchParams.set("q", "75");
+  srcUrl.searchParams.set("w", "1280");
+  const placeholder = new URL(srcUrl.toString());
+  placeholder.searchParams.set("w", "48");
+  placeholder.searchParams.set("q", "30");
+
+  const srcSet = responsiveWidths
+    .map((width) => {
+      const candidate = new URL(srcUrl.toString());
+      candidate.searchParams.set("w", String(width));
+      const quality = width <= 960 ? 65 : width <= 1280 ? 72 : 78;
+      candidate.searchParams.set("q", String(quality));
+      return `${candidate.toString()} ${width}w`;
+    })
+    .join(", ");
+
+  return {
+    src: srcUrl.toString(),
+    srcSet,
+    placeholder: placeholder.toString(),
+  };
+});
 
 const statsData = [ 
   {
@@ -39,17 +74,22 @@ export const HeroSection = () => {
   const slidesRef = useRef([]);
   const currentSlideIndex = useRef(0);
   const isAnimating = useRef(false);
+  const [loadedSlides, setLoadedSlides] = useState(() =>
+    sliderImageSources.map((_, index) => index < 2)
+  );
+  const [renderedSlides, setRenderedSlides] = useState(() =>
+    sliderImageSources.map((_, index) => index === 0)
+  );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const hamburgerButtonRef = useRef(null);
+  const mobileMenuRef = useRef(null);
   const firstMenuItemRef = useRef(null);
+  const previouslyFocusedRef = useRef(null);
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleNavClick = (label) => {
-    const targetId =
-      label === "Home" ? "home" : label === "About Us" ? "about" : "projects";
-
+  const handleNavClick = (targetId) => {
     // Close first so the UI doesn't stay open while scrolling.
     setIsMenuOpen(false);
 
@@ -62,11 +102,45 @@ export const HeroSection = () => {
   useEffect(() => {
     if (!isMenuOpen) return;
 
+    const hamburgerButtonEl = hamburgerButtonRef.current;
+    previouslyFocusedRef.current = document.activeElement;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     const onKeyDown = (e) => {
-      if (e.key === "Escape") setIsMenuOpen(false);
+      if (e.key === "Escape") {
+        setIsMenuOpen(false);
+        return;
+      }
+
+      if (e.key !== "Tab") return;
+      const menuEl = mobileMenuRef.current;
+      if (!menuEl) return;
+
+      const focusableSelectors = [
+        "button:not([disabled])",
+        "[href]",
+        "input:not([disabled])",
+        "select:not([disabled])",
+        "textarea:not([disabled])",
+        "[tabindex]:not([tabindex='-1'])",
+      ].join(", ");
+      const focusable = Array.from(menuEl.querySelectorAll(focusableSelectors));
+      if (focusable.length === 0) {
+        e.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKeyDown);
 
@@ -78,12 +152,12 @@ export const HeroSection = () => {
       window.clearTimeout(t);
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = prevOverflow;
+      if (previouslyFocusedRef.current?.focus) {
+        previouslyFocusedRef.current.focus();
+      } else {
+        hamburgerButtonEl?.focus?.();
+      }
     };
-  }, [isMenuOpen]);
-
-  useEffect(() => {
-    if (isMenuOpen) return;
-    hamburgerButtonRef.current?.focus?.();
   }, [isMenuOpen]);
 
   // Handle scroll target passed from other pages (e.g., /contactus)
@@ -100,6 +174,20 @@ export const HeroSection = () => {
 
     return () => window.clearTimeout(timeout);
   }, [location.state]);
+
+  useEffect(() => {
+    const loadAllSlides = () => {
+      setLoadedSlides((prev) => prev.map(() => true));
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(loadAllSlides, { timeout: 1500 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = window.setTimeout(loadAllSlides, 1500);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
 
   useEffect(() => {
     const slides = slidesRef.current.filter(Boolean);
@@ -191,7 +279,7 @@ export const HeroSection = () => {
       className="relative w-full h-[100dvh] md:min-h-screen overflow-hidden flex flex-col lg:justify-start"
     >
       <div className="absolute inset-0">
-        {sliderImages.map((src, i) => (
+        {sliderImageSources.map((image, i) => (
           <div
             key={i}
             ref={(el) => (slidesRef.current[i] = el)}
@@ -203,10 +291,37 @@ export const HeroSection = () => {
                   : "polygon(0 50%, 100% 50%, 100% 50%, 0 50%)",
             }}
           >
+            <div
+              className={`absolute inset-0 transition-opacity duration-500 ${
+                renderedSlides[i] ? "opacity-0" : "opacity-100"
+              }`}
+              style={{
+                backgroundImage: `url(${image.placeholder})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                filter: "blur(12px)",
+                transform: "scale(1.05)",
+              }}
+            />
             <img
-              src={src}
+              src={loadedSlides[i] ? image.src : undefined}
+              srcSet={loadedSlides[i] ? image.srcSet : undefined}
+              sizes="100vw"
               alt={`slide-${i + 1}`}
-              className="absolute w-full h-full object-cover"
+              className={`absolute w-full h-full object-cover transition-opacity duration-500 ${
+                renderedSlides[i] ? "opacity-100" : "opacity-0"
+              }`}
+              loading={i === 0 ? "eager" : "lazy"}
+              fetchPriority={i === 0 ? "high" : "auto"}
+              decoding="async"
+              onLoad={() => {
+                setRenderedSlides((prev) => {
+                  if (prev[i]) return prev;
+                  const next = [...prev];
+                  next[i] = true;
+                  return next;
+                });
+              }}
               style={{ top: 0 }}
             />
           </div>
@@ -238,8 +353,8 @@ export const HeroSection = () => {
                 {navigationItems.map((item, index) => (
                   <button
                     key={index}
-                    className="flex items-center justify-center px-2 [font-family:'Bricolage_Grotesque',Helvetica] font-normal text-[18px] leading-[120%] tracking-[0] text-[#172b4d] text-center align-middle transition-all duration-300 hover:text-[#6b8f3c] hover:tracking-[0.08em]"
-                    onClick={() => handleNavClick(item.label)}
+                    className={`flex items-center justify-center px-2 rounded-[300px] ${FONT_BRICOLAGE_CLASS} font-semibold text-[18px] leading-[120%] tracking-[0] ${TEXT_PRIMARY_CLASS} text-center align-middle transition-all duration-300 capitalize hover:text-[#6b8f3c] hover:tracking-[0.08em]`}
+                    onClick={() => handleNavClick(item.targetId)}
                   >
                     <span className="relative inline-block after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-[2px] after:bg-[#6b8f3c] after:origin-center after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">
                       {item.label}
@@ -248,26 +363,18 @@ export const HeroSection = () => {
                 ))}
               </nav>
 
-              <Button
-                className="group inline-flex items-center gap-[16px] px-[22px] py-[15px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300"
-                onClick={() => {
-                  navigate("/contactus");
-                }}
-              >
-                <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-base lg:text-lg tracking-[0] leading-[1.3] text-black">
-                  <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
-                    Contact Us
-                  </div>
-                  <div className="absolute translate-y-[164%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
-                    Contact Us
-                  </div>
-                </span>
-                <img
-                  className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
-                  alt="Icon"
-                  src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
-                />
-              </Button>
+              <ContactUsCTA
+                onClick={() => navigate("/contactus")}
+                buttonClassName="group inline-flex items-center gap-[16px] px-[22px] py-[15px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300"
+                spanClassName="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-base lg:text-lg tracking-[0] leading-[1.3] text-black"
+                icon={
+                  <img
+                    className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
+                    alt="Icon"
+                    src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
+                  />
+                }
+              />
             </div>
 
             <button
@@ -277,10 +384,10 @@ export const HeroSection = () => {
               aria-expanded={isMenuOpen}
               aria-controls="mobile-navigation"
               onClick={() => setIsMenuOpen((v) => !v)}
-              className="flex lg:hidden items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#a7c463] bg-[#f6fde5]"
+              className="flex lg:hidden items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-[300px] border border-[#a7c463] bg-[#f6fde5]"
             >
               <span className="sr-only">Open navigation</span>
-              <Menu className="w-5 h-5 text-[#546232]" aria-hidden="true" />
+              <Menu className={`w-5 h-5 ${TEXT_OLIVE_CLASS}`} aria-hidden="true" />
             </button>
           </div>
         </nav>
@@ -292,6 +399,7 @@ export const HeroSection = () => {
           />
         )}
         <aside
+          ref={mobileMenuRef}
           id="mobile-navigation"
           role="dialog"
           aria-modal="true"
@@ -304,9 +412,9 @@ export const HeroSection = () => {
             <div className="inline-flex items-center gap-2">
               <div className="relative w-8 h-8 bg-[#f6fde5] rounded-full border border-[#a7c463] flex items-center justify-center">
                 <span className="sr-only">Menu</span>
-                <Menu className="w-5 h-5 text-[#546232]" aria-hidden="true" />
+                <Menu className={`w-5 h-5 ${TEXT_OLIVE_CLASS}`} aria-hidden="true" />
               </div>
-              <span className="[font-family:'Bricolage_Grotesque',Helvetica] font-medium text-[#172b4d]">
+              <span className={`${FONT_BRICOLAGE_CLASS} font-medium ${TEXT_PRIMARY_CLASS}`}>
                 Menu
               </span>
             </div>
@@ -314,10 +422,10 @@ export const HeroSection = () => {
             <button
               type="button"
               onClick={() => setIsMenuOpen(false)}
-              className="flex items-center justify-center w-9 h-9 rounded-full border border-[#a7c463] bg-[#f6fde5] hover:bg-[#eaf6d3] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8f3c]/50"
+              className="flex items-center justify-center w-9 h-9 rounded-[300px] border border-[#a7c463] bg-[#f6fde5] hover:bg-[#eaf6d3] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8f3c]/50"
               aria-label="Close navigation"
             >
-              <X className="w-5 h-5 text-[#172b4d]" aria-hidden="true" />
+              <X className={`w-5 h-5 ${TEXT_PRIMARY_CLASS}`} aria-hidden="true" />
             </button>
           </div>
 
@@ -328,8 +436,8 @@ export const HeroSection = () => {
                   key={index}
                   ref={index === 0 ? firstMenuItemRef : null}
                   type="button"
-                  onClick={() => handleNavClick(item.label)}
-                  className="w-full text-left px-5 py-4 rounded-[16px] border border-[#a7c463] bg-[#f6fde5] hover:border-[#6b8f3c] hover:bg-white transition-colors [font-family:'Bricolage_Grotesque',Helvetica] font-normal text-[18px] leading-[120%] tracking-[0] text-[#172b4d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8f3c]/50"
+                    onClick={() => handleNavClick(item.targetId)}
+                  className={`w-full text-left px-5 py-4 rounded-[300px] border border-[#a7c463] bg-[#f6fde5] hover:border-[#6b8f3c] hover:bg-white transition-colors ${FONT_FUNNEL_CLASS} font-medium text-[16px] leading-[120%] tracking-[0px] ${TEXT_PRIMARY_CLASS} capitalize align-middle focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8f3c]/50`}
                 >
                   {item.label}
                 </button>
@@ -337,22 +445,22 @@ export const HeroSection = () => {
             </div>
 
             <div className="mt-6">
-              <Button
-                className="w-full justify-center inline-flex items-center gap-[16px] px-[22px] py-[15px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300"
+              <ContactUsCTA
                 onClick={() => {
                   setIsMenuOpen(false);
                   navigate("/contactus");
                 }}
-              >
-                <span className="relative inline-flex overflow-hidden [font-family:'Funnel_Sans',Helvetica] font-medium text-[20  px] leading-[120%] tracking-[0px] text-[#172b4d] align-middle">
-                  Contact Us
-                </span>
-                <img
-                  className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
-                  alt="Icon"
-                  src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
-                />
-              </Button>
+                buttonClassName="w-full justify-center inline-flex items-center gap-[16px] px-[22px] py-[15px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300"
+                spanClassName={`relative inline-flex overflow-hidden ${FONT_FUNNEL_CLASS} font-medium text-[20px] leading-[120%] tracking-[0px] ${TEXT_PRIMARY_CLASS} align-middle`}
+                icon={
+                  <img
+                    className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
+                    alt="Icon"
+                    src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
+                  />
+                }
+                swapText={false}
+              />
             </div>
           </div>
         </aside>
@@ -364,26 +472,18 @@ export const HeroSection = () => {
               Execution
             </h1>
 
-            <Button
-              className="group w-full md:w-auto justify-center inline-flex items-center gap-2 md:gap-[18px] px-8 md:px-[25px] py-4 md:py-[19px] h-auto bg-[#d1f57c] rounded-full hover:bg-[#c5e970] transition-all duration-300 mb-6 md:mb-8"
-              onClick={() => {
-                navigate("/contactus");
-              }}
-            >
-              <span className="relative inline-flex overflow-hidden [font-family:'Funnel_Sans',Helvetica] font-medium text-[16px] leading-[120%] tracking-[0px] text-[#172b4d] align-middle">
-                <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
-                  Contact Us
-                </div>
-                <div className="absolute translate-y-[164%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
-                  Contact Us
-                </div>
-              </span>
-              <img
-                className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
-                alt="Icon"
-                src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
-              />
-            </Button>
+            <ContactUsCTA
+              onClick={() => navigate("/contactus")}
+              buttonClassName="group w-full md:w-auto justify-center inline-flex items-center gap-2 md:gap-[18px] px-8 md:px-[25px] py-4 md:py-[19px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 mb-6 md:mb-8"
+              spanClassName={`relative inline-flex overflow-hidden ${FONT_FUNNEL_CLASS} font-medium text-[16px] leading-[120%] tracking-[0px] ${TEXT_PRIMARY_CLASS} align-middle`}
+              icon={
+                <img
+                  className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-150 group-hover:rotate-45"
+                  alt="Icon"
+                  src="https://c.animaapp.com/mm91avyrvgFAYy/img/icon.svg"
+                />
+              }
+            />
           </div>
 
           <Card
