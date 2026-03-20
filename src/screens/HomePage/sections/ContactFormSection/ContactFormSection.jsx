@@ -102,7 +102,7 @@ export const ContactFormSection = () => {
                   disabled={sendStatus === "sending"}
                   className="group/btn inline-flex items-center gap-3 md:gap-[14px] lg:gap-[18px] px-4 py-3 md:px-5 md:py-4 lg:px-[25px] lg:py-[19px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 w-fit disabled:opacity-70"
                 >
-                  <span className="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#172b4d] text-sm md:text-base lg:text-lg tracking-[0] leading-[1.2]">
+                  <span className="relative inline-flex overflow-hidden !capitalize align-middle text-[#172b4d] tracking-[0px] leading-[120%] text-[16px] font-medium ![font-family:'Funnel_Sans',Helvetica] lg:![font-family:'Bricolage_Grotesque',Helvetica] lg:font-semibold lg:text-[18px]">
                     {sendStatus === "sending" ? (
                       <div className="flex items-center gap-2">
                         <LoaderIcon className="w-4 h-4 animate-spin" />
@@ -161,11 +161,11 @@ export const ContactFormSection = () => {
               className="absolute left-1/2 bottom-6 -translate-x-1/2 w-[190px] h-[42px] bg-[#ffffff3d] hover:bg-[#ffffff4d] rounded-[200px] backdrop-blur-[10px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(10px)_brightness(100%)] transition-all opacity-0 group-hover:opacity-100"
             >
               {isPlaying ? (
-                <PauseIcon className="w-[13px] h-[18px] text-white fill-white mr-2" />
+                <PauseIcon className="w-[13px] h-[18px] text-[#172b4d] fill-[#172b4d] mr-2" />
               ) : (
-                <PlayIcon className="w-[13px] h-[18px] text-white fill-white mr-2" />
+                <PlayIcon className="w-[13px] h-[18px] text-[#172b4d] fill-[#172b4d] mr-2" />
               )}
-              <span className="[font-family:'Geist_Mono',Helvetica] font-medium text-white text-[13px] tracking-[0] leading-[18.2px]">
+              <span className="relative inline-flex overflow-hidden !capitalize align-middle text-[#172b4d] tracking-[0px] leading-[120%] text-[16px] font-medium ![font-family:'Funnel_Sans',Helvetica] lg:![font-family:'Bricolage_Grotesque',Helvetica] lg:font-semibold lg:text-[18px]">
                 {isPlaying ? "PAUSE" : "PLAY"}
               </span>
             </Button>

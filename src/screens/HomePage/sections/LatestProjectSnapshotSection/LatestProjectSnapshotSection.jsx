@@ -70,7 +70,7 @@ export const LatestProjectSnapshotSection = () => {
 
           <div className="flex justify-center">
             <ContactUsCTA
-              buttonClassName="group inline-flex items-center justify-center gap-[12px] px-6 py-[14px] h-auto bg-[#d1f57c] rounded-[999px] hover:bg-[#c5e970] transition-all duration-300 w-full"
+              buttonClassName="group inline-flex items-center justify-center gap-[12px] px-6 py-[14px] h-auto bg-[#d1f57c] rounded-[300px] hover:bg-[#c5e970] transition-all duration-300 w-full"
               spanClassName="relative inline-flex overflow-hidden [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-[#172b4d] text-base md:text-lg leading-[1.2]"
               icon={
                 <img

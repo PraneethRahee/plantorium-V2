@@ -30,7 +30,7 @@ export const ContactSection = () => {
                     sustainable future.
                   </p>
                 </div>
-                <Button className="inline-flex items-center gap-[18px] px-[25px] py-[19px] h-auto bg-[#d1f57c] hover:bg-[#c5e970] rounded-[300px] text-[#172b4d] [font-family:'Bricolage_Grotesque',Helvetica] font-semibold text-lg">
+                <Button className="inline-flex items-center gap-[18px] px-[25px] py-[19px] h-auto bg-[#d1f57c] hover:bg-[#c5e970] rounded-[300px] text-[#172b4d] !capitalize align-middle tracking-[0px] leading-[120%] text-[16px] font-medium ![font-family:'Funnel_Sans',Helvetica] lg:![font-family:'Bricolage_Grotesque',Helvetica] lg:font-semibold lg:text-[18px]">
                   Contact Us
                   <ArrowRightIcon className="w-3.5 h-3.5" />
                 </Button>
